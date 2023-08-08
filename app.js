@@ -96,86 +96,88 @@ app.get("/message", function (req, res) {
 app.get("/verification", function (req, res) {
   res.render("/verification", { user: user })
 })
-app.post("/register", async function (req, res) {
-  const datas = req.body;
-  console.log(datas);
-  const f_name = datas.fName;
-  const l_name = datas.lName;
-  const phone = datas.mobile;
-  const email = datas.email;
-  const password = datas.password;
-  const sql1 = 'INSERT INTO users(first_name,last_name,mobile,email, password) VALUES (?, ?, ?, ?,?)';
-  const values = [f_name, l_name, phone, email, password];
-
-  const sql2 = 'SELECT COUNT(*) as count FROM users WHERE email = ?';
-
-
-  const query1 = (sql, values) => {
-    return new Promise((resolve, reject) => {
-      connection.query(sql, values, function (error, results, fields) {
-        if (error) reject(error);
-        else resolve(results);
-      });
-    });
-  };
-
-  const results = await query1(sql2, [email]);
-
-
-  if (results[0].count > 0 && results[0].verified == 1) {
-    error1 = "email already exist"
-    res.render('register', { error1: error1 });
-  }
-  else {
-    connection.query(sql1, values, function (err, result) {
-      if (err) {
+app.post("/register", async function(req, res){
+    const datas = req.body;
+    console.log(datas);
+    const f_name = datas.fName;
+    const l_name = datas.lName;
+    const phone = datas.mobile;
+    const email = datas.email;
+    const password = datas.password;
+    const sql1 = 'INSERT INTO users(first_name,last_name,mobile,email, password) VALUES (?, ?, ?, ?,?)';
+    const values = [f_name, l_name, phone, email, password];
+    
+    const sql2 = 'SELECT COUNT(*) as count FROM users WHERE email = ?';
+    
+    connection.query(sql2, values, function(err, result) {
+      if (err){
         throw err;
       }
-      console.log('Record inserted');
-    });
-
-
-
-
-
-    var temp;
-    const sql3 = 'SELECT id FROM users WHERE email = ?';
-    const val = [email];
-    connection.query(sql3, val, function (err, result1) {
-      if (err) {
-        throw err;
+      else
+      {
+        if(result[0].count>0)
+        {
+          error1="email already exist"
+          res.render('register', {error1:error1});
+        }
+        else
+        {
+          connection.query(sql1, values, function(err, result) {
+            if (err){
+              throw err;
+            }
+            console.log('Record inserted');
+          });
+           
+          
+  
+  
+  
+           var temp;
+          const sql3 = 'SELECT id FROM users WHERE email = ?';
+          const val = [email];
+          connection.query(sql3, val, function(err, result1) {
+            if (err){
+              throw err;
+            }
+            else
+            {
+                  temp = result1[0].id;
+                 
+  
+                  const sql4 = 'INSERT INTO profile(UserId,Name,email,ContactDetails) VALUES (?, ?, ?, ?)';
+                  const val4 = [temp, f_name +" "+ l_name, email, phone];
+                  connection.query(sql4, val4, function(err, result2) {
+                    if (err){
+                      throw err;
+                    }
+                    else
+                    console.log('Record inserted in profile table succesfully');
+                  });
+  
+             }
+                    console.log('Record extracted');
+          });
+  
+           
+  
+          res.redirect("/registration_success");
+           
+          
+          
+  
+  
+  
+                  
+          
+        }
       }
-      else {
-        temp = result1[0].id;
-
-
-        const sql4 = 'INSERT INTO profile(UserId,Name,email,ContactDetails) VALUES (?, ?, ?, ?)';
-        const val4 = [temp, f_name + " " + l_name, email, phone];
-        connection.query(sql4, val4, function (err, result2) {
-          if (err) {
-            throw err;
-          }
-          else
-            console.log('Record inserted in profile table succesfully');
-        });
-
-      }
-      console.log('Record extracted');
     });
+    
 
-
-
-    res.redirect("/registration_success");
-
-
-
-
-
-
-
-
-  }
-})
+    
+      
+  })
 
 
 
