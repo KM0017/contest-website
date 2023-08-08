@@ -109,7 +109,7 @@ app.post("/register", async function(req, res){
     
     const sql2 = 'SELECT COUNT(*) as count FROM users WHERE email = ?';
     
-    connection.query(sql2, values, function(err, result) {
+    connection.query(sql2, email, function(err, result) {
       if (err){
         throw err;
       }
