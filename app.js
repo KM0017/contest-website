@@ -109,13 +109,13 @@ app.post("/register", async function(req, res){
     
     const sql2 = 'SELECT COUNT(*) as count FROM users WHERE email = ?';
     
-    connection.query(sql2, email, function(err, result) {
+    connection.query(sql2, email, function(err, results) {
       if (err){
         throw err;
       }
       else
       {
-        if(result[0].count>0)
+        if(results[0].count>0)
         {
           error1="email already exist"
           res.render('register', {error1:error1});
@@ -295,15 +295,6 @@ var id2 = "";
 var image_data = "";
 var question = "";
 
-
-const qr2 = 'SELECT COUNT(*) AS count FROM question_details';
-var count1 = "";
-connection.query(qr2, function (error, result) {
-  if (error)
-    throw error;
-  count1 = result[0].count;
-  console.log(count1);
-})
 
 app.get('/q_details', requireLogin, function (req, res) {
   user = req.session.user;
