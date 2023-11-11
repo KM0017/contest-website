@@ -204,7 +204,7 @@ app.post('/login', function (req, res) {
     else if (results2.length > 0) {
       const user = results2[0];
       req.session.user = user;
-
+connection.release();
       res.redirect('/');
     }
     else {
