@@ -17,10 +17,10 @@ app.use(express.static('public'));
 app.set('view engine', 'ejs');
 var user = "";
 const connection = mysql.createConnection({
-  host: 'sql6.freesqldatabase.com',
-  user: 'sql6637640',
-  password: '1gZIsmjzf1',
-  database: 'sql6637640',
+  host: 'sql.freedb.tech',
+  user: 'freedb_jp024556',
+  password: 'A#JU$s6aK7UhKuZ',
+  database: 'freedb_test_db_1',
 });
 
 const sessionStore = new MySQLStore({
@@ -204,7 +204,6 @@ app.post('/login', function (req, res) {
     else if (results2.length > 0) {
       const user = results2[0];
       req.session.user = user;
-connection.release();
       res.redirect('/');
     }
     else {
