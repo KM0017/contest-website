@@ -17,10 +17,10 @@ app.use(express.static('public'));
 app.set('view engine', 'ejs');
 var user = "";
 const connection = mysql.createConnection({
-  host: 'sql.freedb.tech',
-  user: 'freedb_jp024556',
-  password: 'A#JU$s6aK7UhKuZ',
-  database: 'freedb_test_db_1',
+  host: 'sql12.freesqldatabase.com',
+  user: 'sql12661001',
+  password: 'XZrXdkcAk5',
+  database: 'sql12661001',
 });
 
 const sessionStore = new MySQLStore({
