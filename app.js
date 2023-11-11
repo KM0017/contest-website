@@ -634,6 +634,10 @@ app.post('/upload', upload.single('profile-picture'), (req, res) => {
   });
 });
 
+app.use((err, req, res, next) => {
+    const statusCode = err.statusCode || 500;
+    console.error(`Error: ${err.message}`, `\nStack: ${err.stack || 'No stack trace found'}`);
+});
 
 app.listen(3000, function () {
   console.log("server is running on port 3000");
