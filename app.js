@@ -18,9 +18,9 @@ app.set('view engine', 'ejs');
 var user = "";
 const connection = mysql.createConnection({
   host: 'sql12.freesqldatabase.com',
-  user: 'sql12661001',
-  password: 'XZrXdkcAk5',
-  database: 'sql12661001',
+  user: 'sql12664638',
+  password: 'AcpQIG6Rfc',
+  database: 'sql12664638',
 });
 
 const sessionStore = new MySQLStore({
